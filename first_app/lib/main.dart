@@ -18,7 +18,6 @@ class _MyAppState extends State<MyApp> {
   void _answerQuestion() {
     setState(() {
       _questionIndex += 1;
-      print(_questionIndex);
     });
   }
 
