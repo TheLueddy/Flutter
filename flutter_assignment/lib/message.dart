@@ -8,7 +8,14 @@ class Message extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(messageText),
-    );
+        width: double.infinity,
+        margin: EdgeInsets.all(10),
+        child: Text(
+          messageText,
+          style: TextStyle(
+            fontSize: 28,
+          ),
+          textAlign: TextAlign.center,
+        ));
   }
 }

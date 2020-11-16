@@ -15,11 +15,18 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  var _possibleMessageText = ['Hello', 'Bye'];
   var _messageText = 'Hello';
+  var _count = 0;
 
   void _changeText() {
+    if (_count == 0) {
+      _count = 1;
+    } else {
+      _count = 0;
+    }
     setState(() {
-      _messageText = 'Bye';
+      _messageText = _possibleMessageText[_count];
     });
   }
 

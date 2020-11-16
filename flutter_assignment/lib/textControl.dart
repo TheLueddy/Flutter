@@ -10,6 +10,8 @@ class TextControl extends StatelessWidget {
     return Container(
       child: RaisedButton(
         child: Text('Change text'),
+        color: Colors.blue,
+        textColor: Colors.white,
         onPressed: changeText,
       ),
     );
