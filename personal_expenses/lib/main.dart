@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import './transactions.dart';
 
@@ -21,6 +22,8 @@ class MyHomePage extends StatelessWidget {
     Transaction(
         id: 't2', title: 'New T-shirt', amount: 29.95, date: DateTime.now())
   ];
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,6 @@ class MyHomePage extends StatelessWidget {
         title: Text('Flutter App'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
@@ -42,15 +44,48 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
           ),
+          Card(
+            child: Container(
+              padding: EdgeInsets.only(
+                left: 10,
+                right: 10,
+                top: 10,
+              ),
+              child: Column(
+                children: [
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Title',
+                    ),
+                    controller: titleController,
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Amount',
+                    ),
+                    controller: amountController,
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      print(titleController.text);
+                    },
+                    child: Text('Add Transaction'),
+                    textColor: Colors.blue,
+                  ),
+                ],
+              ),
+            ),
+          ),
           Column(
               children: transactions.map((tx) {
             return Card(
                 child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   child: Text(
-                    tx.amount.toString(),
+                    'CHF ${tx.amount}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -65,23 +100,26 @@ class MyHomePage extends StatelessWidget {
                   ),
                   padding: EdgeInsets.all(5),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      tx.title,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        tx.title,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      tx.date.toString(),
-                      style: TextStyle(
-                        color: Colors.grey,
+                      Text(
+                        DateFormat.yMMMd().format(tx.date),
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ));
