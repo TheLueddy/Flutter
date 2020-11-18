@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import './transactions.dart';
+import './models/transactions.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,9 +18,17 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   final List<Transaction> transactions = [
     Transaction(
-        id: 't1', title: 'New Shoes', amount: 69.95, date: DateTime.now()),
+      id: 't1',
+      title: 'New Shoes',
+      amount: 69.95,
+      date: DateTime.now(),
+    ),
     Transaction(
-        id: 't2', title: 'New T-shirt', amount: 29.95, date: DateTime.now())
+      id: 't2',
+      title: 'New T-shirt',
+      amount: 29.95,
+      date: DateTime.now(),
+    )
   ];
   final titleController = TextEditingController();
   final amountController = TextEditingController();
