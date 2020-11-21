@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 
 import './widgets/transactionList.dart';
 import './widgets/newTransaction.dart';
+import './widgets/chart.dart';
 import './models/transactions.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-    @override
-    Widget build(BuildContext context) {
-      return MaterialApp(
-        title: 'Personal Expenses',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          accentColor: Colors.blueGrey,
-          fontFamily: 'Quicksand',
-        ),
-        home: MyHomepage(),
-      );
-    }
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Personal Expenses',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        accentColor: Colors.blueGrey,
+        fontFamily: 'Quicksand',
+      ),
+      home: MyHomepage(),
+    );
+  }
 }
 
 class MyHomepage extends StatefulWidget {
@@ -29,11 +30,21 @@ class MyHomepage extends StatefulWidget {
 class _MyHomepageState extends State<MyHomepage> {
   final List<Transaction> _transactionList = [];
 
-  void _addNewTransaction(String newTitle, double newAmount) {
+  List<Transaction> get _recentTransactionList {
+    return _transactionList.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
+
+  void _addNewTransaction(String newTitle, double newAmount, DateTime newDate) {
     final newTx = Transaction(
       title: newTitle,
       amount: newAmount,
-      date: DateTime.now(),
+      date: newDate,
       id: DateTime.now().toString(),
     );
 
@@ -54,6 +65,14 @@ class _MyHomepageState extends State<MyHomepage> {
         });
   }
 
+  void _deleteTransaction(String deleteId) {
+    setState(() {
+      _transactionList.removeWhere((element) {
+        return element.id == deleteId;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,17 +89,8 @@ class _MyHomepageState extends State<MyHomepage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text(
-                  'CHART',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-            TransactionList(_transactionList),
+            Chart(_recentTransactionList),
+            TransactionList(_transactionList, _deleteTransaction),
           ],
         ),
       ),
